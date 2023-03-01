@@ -5,24 +5,25 @@
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    {% block css %}{% endblock %}
+    {% block css %}<link href="{% static 'css/styleBase.css' %}" rel="stylesheet">{% endblock %}
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
     <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-            aria-controls="offcanvasScrolling">Enable body scrolling</button>
+            aria-controls="offcanvasScrolling" style="display: block; margin: 0 auto">Click me</button>
+    <img class="image" src="https://media.giphy.com/media/QTc4NvhYNlyT7Q32uj/giphy.gif" alt="background" style="width: 100%">
     <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Colored with scrolling</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
-            <p>Try scrolling the rest of the page to see this option in action.</p>
-        </div>
+        <div class="button">Picture</div>
     </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+{#<script src="https://code.s3.yandex.net/web-code/smoothly.js"></script>#}
+<script src="{% static 'scripts/background.js' %}"></script>
 </body>
 </html>
