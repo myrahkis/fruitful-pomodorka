@@ -20,6 +20,8 @@ class DeleteTodo(ModelSchema):
         model_fields = ['id', 'title', 'completed']
 
 
+
+
 # router = Router(tags=["todos"])
 #
 # def list_todos(request):
