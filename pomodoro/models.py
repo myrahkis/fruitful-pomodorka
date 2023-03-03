@@ -3,8 +3,13 @@ from django.utils import timezone
 
 
 class Todo(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=150)
     completed = models.BooleanField(default=False)
+
+
+class Category(models.Model):
+    title = models.CharField(max_length=150)
+    description = models.TextField(max_length=250)
 
 
 # class TodoManager(models.Manager):
