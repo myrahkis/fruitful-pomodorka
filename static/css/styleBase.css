@@ -26,3 +26,9 @@
   cursor: pointer;
   border-radius: 5px;
 }
+
+/* modal styles */
+
+.modal-content.ui-resizable {
+
+}
