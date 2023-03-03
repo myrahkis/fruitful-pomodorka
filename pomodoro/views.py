@@ -9,3 +9,4 @@ def index_view(request):
 
 def homework_view(request):
     return render(request, 'homework.html')
+
