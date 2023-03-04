@@ -4,7 +4,75 @@
 {% block css %}<link href="{% static 'css/styleBase.css' %}" rel="stylesheet">{% endblock %}
 
 {% block content %}
-    <h1>Hello</h1>
+    <div x-data="getTodo()" style="margin-top: 100px; margin-right: 100px; margin-left: 100px">
+        <div class="row justify-content-center">
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title mb-3" style="text-align: center; color: purple">Todo</h4>
+                        <form id="todo-form">
+                            {% csrf_token %}
+                        </form>
+                        <div class="todoapp">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 id="todo-message"><span id="todo-remaining"></span><span id="todo-total"></span></h5>
+                                </div>
+                                <div class="col-auto">
+                                    <a href="" class="float-end btn btn-light btn-sm" id="btn-archive">Delete</a>
+                                </div>
+                            </div>
+                            <div style="max-height:314px">
+                                <template x-for="todo in todos">
+                                    <div class="col-md-5">
+                                        <input class="form-check-input me-1" type="checkbox">
+                                        <label class="strikethrough" x-text="todo.title"></label>
+                                    </div>
+                                </template>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <input x-model="newTodo" class="form-control" placeholder="Add new todo">
+                                    <div class="invalid-feedback">
+                                        Please enter the task
+                                    </div>
+                                </div>
+                                <div class="col-auto d-grid">
+                                    <button @click="addTodo(newTodo)" type="button" class="btn btn-primary">Add todo</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+{#    <div x-data="getTodo()">#}
+{#        <h3 class="text-center mt-5" style="color: purple">Todo</h3>#}
+{#        <form id="todo-form">#}
+{#            {% csrf_token %}#}
+{#        </form>#}
+{#        <div class="container">#}
+{#            <div class="input-lg px-5">#}
+{#                <input x-model="newTodo" class="form-control" placeholder="Todo">#}
+{#            </div>#}
+{#            <div class="list-group">#}
+{#                <template x-for="todo in todos">#}
+{#                    <label class="list-group-item draggable-element">#}
+{#                        <input class="form-check-input me-1" type="checkbox" value="">#}
+{#                        <h6 x-text="todo.title"></h6>#}
+{#                        <button @click="deleteTodo(todo.id)" class="btn btn-danger btn-sm float-right"><i class="uil uil-trash"></i>Delete</button>#}
+{#                    </label>#}
+{#                </template>#}
+{#            </div>#}
+{#        </div>#}
+{#        <button @click="addTodo(newTodo)" type="button" class="btn btn-primary" style="margin: 0 auto">Add todo</button>#}
+{#    </div>#}
+
     <script>
         const getTodo = () => {
             return {
@@ -17,10 +85,20 @@
             }
         };
 
-        const addTodo = async (title) => {
-            return {
+        const csrfToken = document.querySelector('#todo-form > input').value;
 
-            }
-        }
+        const addTodo = async (title) => {
+            try {
+                const result = await axios.post('/api/todo', {title}, {headers: {"X-CSRFToken": csrfToken}});
+                location.reload();
+            } catch (e) {console.error(e);}
+        };
+
+        const deleteTodo = async todoId => {
+            try {
+                const result = await axios.delete('/api/todo' + todoId, {headers: {"X-CSRFToken": csrfToken}});
+                location.reload();
+            } catch (e) {console.error(e);}
+        };
     </script>
 {% endblock %}

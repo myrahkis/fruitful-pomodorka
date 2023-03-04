@@ -5,7 +5,11 @@ from .models import *
 
 
 def index_view(request):
-    return render(request, 'index.html', {'todos': Todo.objects.all()})
+    return render(request, 'index.html')
+
+
+def pomodorka_view(request):
+    return render(request, 'todo.html', {'todos': Todo.objects.all()})
 
 
 def todo_view(request, todo_id):

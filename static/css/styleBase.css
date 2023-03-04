@@ -1,6 +1,11 @@
 /*body {*/
 /*margin: 0;*/
 /*}*/
+input[type=checkbox]:checked + label.strikethrough{
+  text-decoration: line-through;
+}
+
+
 
 .container {
   width: 100%;
