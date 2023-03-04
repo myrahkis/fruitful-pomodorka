@@ -1,12 +1,16 @@
-from django.shortcuts import render
-from .models import *
+from django.utils import timezone
+from django.views.generic import TemplateView
 from django.shortcuts import render, get_object_or_404
+from .models import *
 
 
 def index_view(request):
-    return render(request, 'index.html')
+    return render(request, 'index.html', {'todos': Todo.objects.all()})
 
 
-def homework_view(request):
-    return render(request, 'homework.html')
+def todo_view(request, todo_id):
+    todo = get_object_or_404(Todo, id=todo_id)
+    return render(request, 'todo.html', {'todo': todo})
+
+
 

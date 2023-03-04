@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Todo{% endblock %}
+{% block css %}<link href="{% static 'css/styleBase.css' %}" rel="stylesheet">{% endblock %}
+
+{% block content %}
+    <h1>Hello</h1>
+    <script>
+        const getTodo = () => {
+            return {
+                newTodo: '',
+                todos: [
+                    {% for todo in todos %}
+                    {'title': '{{ todo.title }}', 'id': '{{ todo.id }}'},
+                    {% endfor %}
+                ]
+            }
+        };
+
+        const addTodo = async (title) => {
+            return {
+
+            }
+        }
+    </script>
+{% endblock %}

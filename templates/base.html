@@ -10,20 +10,8 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    <div class="container">
-        <img class="image" src="https://media.giphy.com/media/QTc4NvhYNlyT7Q32uj/giphy.gif" alt="background img">
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-            aria-controls="offcanvasScrolling" style="display: block; margin: 0 auto">Click me</button>
-    </div>
-    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
-         id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Colored with scrolling</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <button class="button btn btn-primary">Picture</button>
-
-
+    {% block content %}
+    {% endblock %}
 
 {#<div class="row justify-content-center">#}
 {#    <div class="col-xl-6">#}
@@ -64,9 +52,6 @@
 {#                </div>#}
 {#            </div>#}
 {#        </div>#}
-
-    </div>
-</div>
 
 
 
