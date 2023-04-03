@@ -3,11 +3,12 @@
 {% block title %}Fruitful pomodorka{% endblock %}
 {% block css %}<link href="{% static 'css/styleBase.css' %}" rel="stylesheet">{% endblock %}
 
+
 {% block content %}
     <div class="container">
-    <img class="image" src="https://media.giphy.com/media/QTc4NvhYNlyT7Q32uj/giphy.gif" alt="background img">
-    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-        aria-controls="offcanvasScrolling" style="display: block; margin: 0 auto">Click me</button>
+        <img class="image" src="https://media.giphy.com/media/QTc4NvhYNlyT7Q32uj/giphy.gif" alt="background img">
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+            aria-controls="offcanvasScrolling" style="display: block; margin: 0 auto">Click me</button>
     </div>
     <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
          id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
@@ -16,6 +17,91 @@
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <button class="button btn btn-primary">Picture</button>
+        <button type="button" class="btn btn-primary" value="Click" onmousedown="viewDiv()">Toggle button</button>
     </div>
+    <div class="ui-widget-content" id="draggable" aria-labelledby="draggable" aria-hidden="true">
+        <div x-data="getTodo()" style="margin-top: 100px;">
+            <div class="row justify-content-center">
+                <div class="col-xl-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="header-title mb-3" style="text-align: center; color: purple">Todo</h4>
+                            <form id="todo-form">
+                                {% csrf_token %}
+                            </form>
+                            <div class="todoapp">
+    {#                            <div class="row">#}
+    {#                                <div class="col">#}
+    {#                                    <h5 id="todo-message"><span id="todo-remaining"></span><span id="todo-total"></span></h5>#}
+    {#                                </div>#}
+    {#                                <div class="col-auto">#}
+    {#                                    <a href="" class="float-end btn btn-light btn-sm" id="btn-archive">Delete</a>#}
+    {#                                </div>#}
+    {#                            </div>#}
+                                <div style="max-height:314px">
+                                    <template x-for="todo in todos">
+                                        <div class="col-md-5">
+                                            <input class="form-check-input me-1" type="checkbox">
+                                            <label class="strikethrough" x-text="todo.title"></label>
+                                            <button @click="deleteTodo(todo.id)" class="btn btn-danger btn-sm float-right">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                  <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <input x-model="newTodo" class="form-control" placeholder="Add new todo">
+                                        <div class="invalid-feedback">
+                                            Please enter the task
+                                        </div>
+                                    </div>
+                                    <div class="col-auto d-grid">
+                                        <button @click="addTodo(newTodo)" type="button" class="btn btn-primary">Add todo</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c="
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{% static 'scripts/todoWidget.js' %}"></script>
+    <script>
+        const getTodo = () => {
+            return {
+                newTodo: '',
+                todos: [
+                    {% for todo in todos %}
+                    {'title': '{{ todo.title }}', 'id': '{{ todo.id }}'},
+                    {% endfor %}
+                ]
+            }
+        };
+
+        const csrfToken = document.querySelector('#todo-form > input').value;
+
+        const addTodo = async (title) => {
+            try {
+                const result = await axios.post('/api/', {title}, {headers: {"X-CSRFToken": csrfToken}});
+                location.reload();
+            } catch (e) {console.error(e);}
+        };
+
+        const deleteTodo = async todoId => {
+            try {
+                const result = await axios.delete('/api/' + todoId, {headers: {"X-CSRFToken": csrfToken}});
+                location.reload();
+            } catch (e) {console.error(e);}
+        };
+    </script>
 {% endblock %}
 

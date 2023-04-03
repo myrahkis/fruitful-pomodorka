@@ -5,16 +5,15 @@ from .models import *
 
 
 def index_view(request):
-    return render(request, 'index.html')
+    return render(request, 'index.html', {'todos': Todo.objects.all()})
 
 
-def pomodorka_view(request):
-    return render(request, 'todo.html', {'todos': Todo.objects.all()})
-
+# def pomodorka_view(request):
+#     return render(request, 'index.html', {'todos': Todo.objects.all()})
 
 def todo_view(request, todo_id):
     todo = get_object_or_404(Todo, id=todo_id)
-    return render(request, 'todo.html', {'todo': todo})
+    return render(request, 'index.html', {'todo': todo})
 
 
 
