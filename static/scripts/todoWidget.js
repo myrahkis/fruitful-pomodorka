@@ -2,7 +2,7 @@ $( function() {
     $( "#draggable" ).draggable();
 });
 
-function viewDiv(){
+function viewTodoList(){
   document.getElementById("draggable").style.display = "block";
 };
 
